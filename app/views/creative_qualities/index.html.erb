@@ -32,9 +32,15 @@
               </p>
 
               <hr>
-
+              <% if @scores[creative_quality.name][:normalized] < -100
+                   score = -100
+                 elsif @scores[creative_quality.name][:normalized] > 100
+                   score = 100
+                 else
+                  score = @scores[creative_quality.name][:normalized]
+                 end %>
               <p>
-                <strong>Your Score: _______</strong>
+                <strong>Your Score: <%= score %></strong>
               </p>
             </div>
           </div>
