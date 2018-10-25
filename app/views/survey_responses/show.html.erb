@@ -20,11 +20,12 @@
 
     <% @survey_response.answers.each do |question_response| %>
       <%= render 'questions/header', question: question_response.question %>
+      <% response_class = question_response.question_choice.score > 0 ? "text-success" : "text-danger" %>
 
       <table class="table table-bordered">
         <% question_response.question.question_choices.each do |question_choice| %>
           <tr>
-            <td>
+            <td class="<%= response_class %>">
               <% if question_choice == question_response.question_choice %>
                 <strong>
                   <%= question_choice.text %>
