@@ -9,6 +9,8 @@ class SurveyResponsesController < ApplicationController
       ]
     )
     .find(params[:id])
+
+    @scores = @survey_response.calculate_creative_quality_scores
   end
 
   def index

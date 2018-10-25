@@ -13,6 +13,8 @@
         of
         <%= Question.count %>
         questions
+        <hr>
+        <%= render 'creative_qualities/individual_survey_scores', scores: @scores %>
       </div>
     </div>
 

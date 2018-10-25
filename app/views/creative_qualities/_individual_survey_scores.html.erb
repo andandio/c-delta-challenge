@@ -1,0 +1,11 @@
+<div>
+  <% scores.each do |score| %>
+    <% raw_string = "Raw score: #{score[:raw]}" %>
+    <% max_string = "Max score: #{score[:max]}" %>
+    <strong><%= score[:name] %></strong>
+    <ul>
+      <li><%= raw_string %></li>
+      <li><%= max_string %></li>
+    </ul>
+  <% end %>
+</div>

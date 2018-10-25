@@ -56,4 +56,32 @@ describe SurveyResponse do
       end
     end
   end
+
+  describe 'score calculations' do
+    let(:survey_response) { create(:survey_response) }
+    let(:answers) { create_list(:answer, 3) }
+    let(:cq) { create(:creative_quality) }
+    let(:qcs) { create_list(:question_choice, 3) }
+
+    before do
+      answers.each_with_index {|answer, i| answer.question_choice = qcs[i]}
+      survey_response.answers = answers
+      qcs.each{ |qc| qc.creative_quality = cq; qc.save! }
+    end
+
+    it 'returns the raw score sum from #calculate_raw_scores' do
+      raw_sum = qcs.map {|qc| qc.score }.sum
+      expect(survey_response.calculate_raw_scores(cq)).to eq(raw_sum)
+    end
+
+
+    it 'calculates the max possible scores from #calculate_max_scores' do
+      new_qcs = create_list(:question_choice, 6)
+      new_qcs.each { |qc| qc.creative_quality = cq; qc.save!}
+      qcs_for_answers = answers.map { |a| a.question_choice }
+      questions = qcs_for_answers.map(&:question_id)
+      max = QuestionChoice.where(question_id: questions).map(&:score).sum
+      expect(survey_response.calculate_max_score(cq)).to eq(max)
+    end
+  end
 end
